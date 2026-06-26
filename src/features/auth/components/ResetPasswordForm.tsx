@@ -3,20 +3,20 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "react-hot-toast";
-import { useNavigate, useLocation } from "react-router-dom";
 
 import { resetPassword } from "../api/auth.api";
 import {
   resetPasswordSchema,
   type ResetPasswordSchema,
 } from "../schema/resetPassword.schema";
-import { ROUTES } from "@/routes/path";
 
-const ResetPasswordForm = () => {
-  const navigate = useNavigate();
-  const location = useLocation();
-  const resetToken: string = location.state?.resetToken ?? "";
+interface Props {
+  resetToken: string;
+  onBack: () => void;
+  onDone: () => void;
+}
 
+const ResetPasswordForm = ({ resetToken, onBack, onDone }: Props) => {
   const [showNew, setShowNew] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
 
@@ -28,14 +28,11 @@ const ResetPasswordForm = () => {
     resolver: zodResolver(resetPasswordSchema),
   });
 
-  const onSubmit = async ({
-    newPassword,
-    confirmPassword,
-  }: ResetPasswordSchema) => {
+  const onSubmit = async ({ newPassword, confirmPassword }: ResetPasswordSchema) => {
     try {
       const res = await resetPassword({ resetToken, newPassword, confirmPassword });
       toast.success(res.message || "Password reset successfully");
-      navigate(ROUTES.login, { state: { passwordReset: true } });
+      onDone();
     } catch (err) {
       toast.error("Password reset failed: " + err);
     }
@@ -45,7 +42,7 @@ const ResetPasswordForm = () => {
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-1">
       <button
         type="button"
-        onClick={() => navigate(ROUTES.otpVerification)}
+        onClick={onBack}
         className="mb-6 flex items-center gap-2 text-gray-500 transition hover:text-gray-700"
       >
         <ArrowLeft size={16} />
@@ -58,7 +55,6 @@ const ResetPasswordForm = () => {
         </h2>
       </div>
 
-      {/* New Password */}
       <div>
         <label className="mb-2 block text-sm text-gray-500">New Password</label>
         <div className="flex h-12 items-center rounded-xl border border-gray-300 bg-gray-100 px-4">
@@ -78,17 +74,12 @@ const ResetPasswordForm = () => {
           </button>
         </div>
         {errors.newPassword && (
-          <p className="mt-1 text-sm text-red-500">
-            {errors.newPassword.message}
-          </p>
+          <p className="mt-1 text-sm text-red-500">{errors.newPassword.message}</p>
         )}
       </div>
 
-      {/* Confirm Password */}
       <div>
-        <label className="mb-2 block text-sm text-gray-500">
-          Confirm Password
-        </label>
+        <label className="mb-2 block text-sm text-gray-500">Confirm Password</label>
         <div className="flex h-12 items-center rounded-xl border border-gray-300 bg-gray-100 px-4">
           <input
             type={showConfirm ? "text" : "password"}
@@ -106,9 +97,7 @@ const ResetPasswordForm = () => {
           </button>
         </div>
         {errors.confirmPassword && (
-          <p className="mt-1 text-sm text-red-500">
-            {errors.confirmPassword.message}
-          </p>
+          <p className="mt-1 text-sm text-red-500">{errors.confirmPassword.message}</p>
         )}
       </div>
 

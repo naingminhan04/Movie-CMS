@@ -16,9 +16,13 @@ import {
 import { loginSchema, type LoginSchema } from "../schema/login.scheme";
 import { useAuthStore } from "../store/auth.store";
 
+interface Props {
+  onForgotPassword: () => void;
+}
+
 const rememberedEmail = getRememberedEmail();
 
-const LoginForm = () => {
+const LoginForm = ({ onForgotPassword }: Props) => {
   const navigate = useNavigate();
   const setAuth = useAuthStore((state) => state.setAuth);
   const setUser = useAuthStore((state) => state.setUser);
@@ -118,7 +122,7 @@ const LoginForm = () => {
 
         <button
           type="button"
-          onClick={() => navigate(ROUTES.forgotPassword)}
+          onClick={onForgotPassword}
           className="font-medium text-[#0D4D87]"
         >
           Forgot password?

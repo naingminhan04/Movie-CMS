@@ -2,18 +2,19 @@ import { ArrowLeft } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "react-hot-toast";
-import { useNavigate } from "react-router-dom";
 
 import { forgotPassword } from "../api/auth.api";
 import {
   forgotPasswordSchema,
   type ForgotPasswordSchema,
 } from "../schema/forgotPassword.schema";
-import { ROUTES } from "@/routes/path";
 
-const ForgotPasswordForm = () => {
-  const navigate = useNavigate();
+interface Props {
+  onBack: () => void;
+  onNext: (email: string) => void;
+}
 
+const ForgotPasswordForm = ({ onBack, onNext }: Props) => {
   const {
     register,
     handleSubmit,
@@ -26,7 +27,7 @@ const ForgotPasswordForm = () => {
     try {
       const res = await forgotPassword({ email, userType: "ADMIN" });
       toast.success(res.message);
-      navigate(ROUTES.otpVerification, { state: { email } });
+      onNext(email);
     } catch (err) {
       toast.error("Failed to send OTP: " + err);
     }
@@ -36,7 +37,7 @@ const ForgotPasswordForm = () => {
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-1">
       <button
         type="button"
-        onClick={() => navigate(ROUTES.login)}
+        onClick={onBack}
         className="mb-6 flex items-center gap-2 text-gray-500 transition hover:text-gray-700"
       >
         <ArrowLeft size={16} />

@@ -3,31 +3,28 @@ import { useRef } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "react-hot-toast";
-import { useNavigate, useLocation } from "react-router-dom";
 
 import { verifyOtp } from "../api/auth.api";
 import {
   otpVerificationSchema,
   type OtpVerificationSchema,
 } from "../schema/otpVerification.schema";
-import { ROUTES } from "@/routes/path";
 
-/** Mask an email address: "admin@company.com.mm" → "****in@company.com.mm" */
+interface Props {
+  email: string;
+  onBack: () => void;
+  onNext: (resetToken: string) => void;
+}
+
 const maskEmail = (email: string): string => {
   const [local, domain] = email.split("@");
   if (!domain) return email;
-  const visible = local.slice(-2);
-  const masked = "****" + visible;
-  return `${masked}@${domain}`;
+  return `****${local.slice(-2)}@${domain}`;
 };
 
 const OTP_LENGTH = 6;
 
-const OtpVerificationForm = () => {
-  const navigate = useNavigate();
-  const location = useLocation();
-  const email: string = location.state?.email ?? "";
-
+const OtpVerificationForm = ({ email, onBack, onNext }: Props) => {
   const inputRefs = useRef<Array<HTMLInputElement | null>>([]);
 
   const { setValue, handleSubmit, watch, formState: { isSubmitting } } =
@@ -63,19 +60,19 @@ const OtpVerificationForm = () => {
 
   const handlePaste = (e: React.ClipboardEvent<HTMLInputElement>) => {
     e.preventDefault();
-    const pasted = e.clipboardData.getData("text").replace(/\D/g, "").slice(0, OTP_LENGTH);
+    const pasted = e.clipboardData
+      .getData("text")
+      .replace(/\D/g, "")
+      .slice(0, OTP_LENGTH);
     setValue("otp", pasted, { shouldValidate: true });
-    const nextIndex = Math.min(pasted.length, OTP_LENGTH - 1);
-    inputRefs.current[nextIndex]?.focus();
+    inputRefs.current[Math.min(pasted.length, OTP_LENGTH - 1)]?.focus();
   };
 
   const onSubmit = async ({ otp: otpCode }: OtpVerificationSchema) => {
     try {
       const res = await verifyOtp({ email, otp: otpCode, userType: "ADMIN" });
       toast.success(res.message);
-      navigate(ROUTES.resetPassword, {
-        state: { resetToken: res.data.resetToken, email },
-      });
+      onNext(res.data.resetToken);
     } catch (err) {
       toast.error("OTP verification failed: " + err);
     }
@@ -85,7 +82,7 @@ const OtpVerificationForm = () => {
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-1">
       <button
         type="button"
-        onClick={() => navigate(ROUTES.forgotPassword)}
+        onClick={onBack}
         className="mb-6 flex items-center gap-2 text-gray-500 transition hover:text-gray-700"
       >
         <ArrowLeft size={16} />
@@ -106,7 +103,7 @@ const OtpVerificationForm = () => {
 
       <div>
         <label className="mb-2 block text-sm text-gray-500">
-          Email Address
+          OTP Code
         </label>
 
         <div className="flex gap-3">

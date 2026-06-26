@@ -11,9 +11,6 @@ export const ROUTE_GROUPS = {
 export const ROUTES = {
   auth: "/",
   login: "/login",
-  forgotPassword: "/forgot-password",
-  otpVerification: "/otp-verification",
-  resetPassword: "/reset-password",
   dashboard: "/dashboard",
 
   videosList: "/videos/list",

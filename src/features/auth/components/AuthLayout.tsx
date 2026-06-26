@@ -64,13 +64,13 @@ const AuthLayout = ({ children }: AuthLayoutProps) => {
 
       {/* Right side */}
       <section
-        className={`flex absolute h-full w-[42%] min-w-150 items-center justify-center rounded-l-[56px] bg-white ${
+        className={`flex absolute h-full w-[42%] min-w-150 items-start justify-center rounded-l-[56px] bg-white overflow-y-auto ${
           isLoaded
             ? "right-0 transition-all duration-500"
             : "-right-160"
         }`}
       >
-        <div className="w-full max-w-130 px-12">{children}</div>
+        <div className="w-full max-w-130 px-12 pt-56">{children}</div>
       </section>
     </main>
   );

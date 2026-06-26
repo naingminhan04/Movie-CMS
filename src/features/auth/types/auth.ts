@@ -108,14 +108,13 @@ export interface ForgotPasswordResponse {
   statusCode: number;
   message: string;
   data: {
-    email: string;
+    userId: string;
   };
 }
 
 export interface VerifyOtpRequest {
-  email: string;
-  otp: string;
-  userType: "ADMIN";
+  userId: string;
+  code: string;
 }
 
 export interface VerifyOtpResponse {
@@ -123,14 +122,13 @@ export interface VerifyOtpResponse {
   statusCode: number;
   message: string;
   data: {
-    resetToken: string;
+    accessToken: string;
   };
 }
 
 export interface ResetPasswordRequest {
-  resetToken: string;
+  accessToken: string;
   newPassword: string;
-  confirmPassword: string;
 }
 
 export interface ResetPasswordResponse {

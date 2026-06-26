@@ -80,7 +80,7 @@ export const forgotPassword = async (
   payload: ForgotPasswordRequest,
 ): Promise<ForgotPasswordResponse> => {
   const { data } = await authClient.post<ForgotPasswordResponse>(
-    "/auth/forget-password",
+    "/auth/otp/send/forgot-password",
     payload,
   );
   return data;
@@ -90,7 +90,7 @@ export const verifyOtp = async (
   payload: VerifyOtpRequest,
 ): Promise<VerifyOtpResponse> => {
   const { data } = await authClient.post<VerifyOtpResponse>(
-    "/auth/verify-otp",
+    "/auth/otp/verify/forgot-password",
     payload,
   );
   return data;

@@ -12,11 +12,11 @@ import {
 import { getErrorMessage } from "@/lib/get-error-message";
 
 interface Props {
-  resetToken: string;
+  accessToken: string;
   onDone: () => void;
 }
 
-const ResetPasswordForm = ({ resetToken, onDone }: Props) => {
+const ResetPasswordForm = ({ accessToken, onDone }: Props) => {
   const [showNew, setShowNew] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
 
@@ -28,9 +28,9 @@ const ResetPasswordForm = ({ resetToken, onDone }: Props) => {
     resolver: zodResolver(resetPasswordSchema),
   });
 
-  const onSubmit = async ({ newPassword, confirmPassword }: ResetPasswordSchema) => {
+  const onSubmit = async ({ newPassword }: ResetPasswordSchema) => {
     try {
-      const res = await resetPassword({ resetToken, newPassword, confirmPassword });
+      const res = await resetPassword({ accessToken, newPassword });
       toast.success(res.message || "Password reset successfully");
       onDone();
     } catch (err) {

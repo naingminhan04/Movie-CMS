@@ -11,13 +11,13 @@ import {
 import { getErrorMessage } from "@/lib/get-error-message";
 
 interface Props {
-  email: string;
-  onNext: (resetToken: string) => void;
+  userId: string;
+  onNext: (accessToken: string) => void;
 }
 
 const OTP_LENGTH = 6;
 
-const OtpVerificationForm = ({ email, onNext }: Props) => {
+const OtpVerificationForm = ({ userId, onNext }: Props) => {
   const inputRefs = useRef<Array<HTMLInputElement | null>>([]);
 
   const { setValue, handleSubmit, watch, formState: { isSubmitting } } =
@@ -63,9 +63,9 @@ const OtpVerificationForm = ({ email, onNext }: Props) => {
 
   const onSubmit = async ({ otp: otpCode }: OtpVerificationSchema) => {
     try {
-      const res = await verifyOtp({ email, otp: otpCode, userType: "ADMIN" });
+      const res = await verifyOtp({ userId, code: otpCode });
       toast.success(res.message);
-      onNext(res.data.resetToken);
+      onNext(res.data.accessToken);
     } catch (err) {
       toast.error(getErrorMessage(err));
     }

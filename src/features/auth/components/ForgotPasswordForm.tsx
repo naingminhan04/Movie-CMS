@@ -10,7 +10,7 @@ import {
 import { getErrorMessage } from "@/lib/get-error-message";
 
 interface Props {
-  onNext: (email: string) => void;
+  onNext: (email: string, userId: string) => void;
 }
 
 const ForgotPasswordForm = ({ onNext }: Props) => {
@@ -26,7 +26,7 @@ const ForgotPasswordForm = ({ onNext }: Props) => {
     try {
       const res = await forgotPassword({ email, userType: "ADMIN" });
       toast.success(res.message);
-      onNext(email);
+      onNext(email, res.data.userId);
     } catch (err) {
       toast.error(getErrorMessage(err));
     }

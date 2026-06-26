@@ -45,25 +45,28 @@ const BACK_STEP: Partial<Record<Step, Step>> = {
 const AuthPage = () => {
   const [step, setStep] = useState<Step>("login");
   const [email, setEmail] = useState("");
-  const [resetToken, setResetToken] = useState("");
+  const [userId, setUserId] = useState("");
+  const [accessToken, setAccessToken] = useState("");
 
   const meta = STEP_META[step];
   const backStep = BACK_STEP[step];
 
-  const handleForgotPasswordNext = (submittedEmail: string) => {
+  const handleForgotPasswordNext = (submittedEmail: string, submittedUserId: string) => {
     setEmail(submittedEmail);
+    setUserId(submittedUserId);
     setStep("otpVerification");
   };
 
   const handleOtpNext = (token: string) => {
-    setResetToken(token);
+    setAccessToken(token);
     setStep("resetPassword");
   };
 
   const handleResetDone = () => {
     setStep("login");
     setEmail("");
-    setResetToken("");
+    setUserId("");
+    setAccessToken("");
     toast.success(
       "Successful Password Reset — You can now use your new password to login.",
     );
@@ -113,10 +116,10 @@ const AuthPage = () => {
         <ForgotPasswordForm onNext={handleForgotPasswordNext} />
       )}
       {step === "otpVerification" && (
-        <OtpVerificationForm email={email} onNext={handleOtpNext} />
+        <OtpVerificationForm userId={userId} onNext={handleOtpNext} />
       )}
       {step === "resetPassword" && (
-        <ResetPasswordForm resetToken={resetToken} onDone={handleResetDone} />
+        <ResetPasswordForm accessToken={accessToken} onDone={handleResetDone} />
       )}
     </AuthLayout>
   );

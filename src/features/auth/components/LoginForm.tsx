@@ -133,9 +133,9 @@ const LoginForm = ({ onForgotPassword }: Props) => {
         <button
           type="submit"
           disabled={isSubmitting}
-          className="flex h-12 w-30 items-center gap-5 rounded-xl bg-[#232B73] px-4 text-lg font-medium text-white transition hover:opacity-90 disabled:opacity-50"
+          className="flex h-11 w-27 items-center gap-5 rounded-md bg-[#232B73] px-4 text-sm text-white transition hover:opacity-90 disabled:opacity-50"
         >
-          {isSubmitting ? "Loading..." : "Login"}
+          Login
           <ArrowRight size={20} />
         </button>
       </div>

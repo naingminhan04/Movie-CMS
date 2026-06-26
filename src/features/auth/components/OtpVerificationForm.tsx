@@ -72,7 +72,7 @@ const OtpVerificationForm = ({ userId, onNext }: Props) => {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-1 mt-5 max-w-87">
+    <form onSubmit={handleSubmit(onSubmit)} className="space-y-1 mt-5 max-w-99">
       <div>
         <label className="mb-2 block text-sm text-gray-500">OTP Code</label>
 
@@ -88,17 +88,17 @@ const OtpVerificationForm = ({ userId, onNext }: Props) => {
               onChange={(e) => handleDigitChange(index, e.target.value)}
               onKeyDown={(e) => handleKeyDown(index, e)}
               onPaste={handlePaste}
-              className="h-12 w-12 rounded-xl border border-gray-300 bg-gray-100 text-center text-lg font-semibold outline-none focus:border-[#232B73] focus:ring-2 focus:ring-[#232B73]/20"
+              className="h-13 w-14 rounded-xl border border-gray-300 bg-gray-100 text-center text-lg font-semibold outline-none focus:border-[#232B73] focus:ring-2 focus:ring-[#232B73]/20"
             />
           ))}
         </div>
       </div>
 
-      <div className="flex justify-end pt-4">
+      <div className="flex justify-end pt-2">
         <button
           type="submit"
           disabled={isSubmitting || otp.length < OTP_LENGTH}
-          className="flex h-12 items-center rounded-xl bg-[#232B73] px-6 text-lg font-medium text-white transition hover:opacity-90 disabled:opacity-50"
+          className="flex h-10 items-center rounded-md bg-[#232B73] px-4 text-md text-white transition hover:opacity-90 disabled:opacity-50"
         >
           Continue
         </button>

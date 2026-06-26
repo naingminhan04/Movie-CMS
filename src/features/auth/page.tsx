@@ -74,7 +74,6 @@ const AuthPage = () => {
 
   return (
     <AuthLayout>
-      {/* Back button row — always reserves the same height so the title never shifts */}
       <div className="mb-4 h-6">
         {backStep && (
           <button

@@ -54,11 +54,11 @@ const ForgotPasswordForm = ({ onNext }: Props) => {
         )}
       </div>
 
-      <div className="flex justify-end pt-4">
+      <div className="flex justify-end pt-2">
         <button
           type="submit"
           disabled={isSubmitting}
-          className="flex h-12 items-center rounded-xl bg-[#232B73] px-6 text-lg font-medium text-white transition hover:opacity-90 disabled:opacity-50"
+          className="flex h-10 items-center rounded-md bg-[#232B73] px-4 text-md text-white transition hover:opacity-90 disabled:opacity-50"
         >
           {isSubmitting ? "Sending..." : "Continue"}
         </button>

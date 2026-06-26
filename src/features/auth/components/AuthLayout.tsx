@@ -4,28 +4,20 @@ interface AuthLayoutProps {
   children: ReactNode;
 }
 
-const SESSION_KEY = "auth_panel_introduced";
-
 const AuthLayout = ({ children }: AuthLayoutProps) => {
-  const alreadyShown = sessionStorage.getItem(SESSION_KEY) === "true";
 
-  const [isLoaded, setLoaded] = useState(alreadyShown);
+  const [isLoaded, setLoaded] = useState(false);
   const [showText, setShowText] = useState(true);
-
-  useEffect(() => {
-    if (alreadyShown) return;
-
-    const timer = setTimeout(() => {
-      setLoaded(true);
-      sessionStorage.setItem(SESSION_KEY, "true");
-    }, 200);
-
-    return () => clearTimeout(timer);
-  }, []);
 
   useEffect(() => {
     const interval = setInterval(() => setShowText((prev) => !prev), 2000);
     return () => clearInterval(interval);
+  }, []);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setLoaded(true);
+    }, 300);
   }, []);
 
   return (

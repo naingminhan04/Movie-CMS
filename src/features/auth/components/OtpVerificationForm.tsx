@@ -72,7 +72,7 @@ const OtpVerificationForm = ({ userId, onNext }: Props) => {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-1">
+    <form onSubmit={handleSubmit(onSubmit)} className="space-y-1 mt-5 max-w-87">
       <div>
         <label className="mb-2 block text-sm text-gray-500">OTP Code</label>
 
@@ -100,7 +100,7 @@ const OtpVerificationForm = ({ userId, onNext }: Props) => {
           disabled={isSubmitting || otp.length < OTP_LENGTH}
           className="flex h-12 items-center rounded-xl bg-[#232B73] px-6 text-lg font-medium text-white transition hover:opacity-90 disabled:opacity-50"
         >
-          {isSubmitting ? "Verifying..." : "Continue"}
+          Continue
         </button>
       </div>
     </form>

@@ -39,7 +39,7 @@ const ResetPasswordForm = ({ accessToken, onDone }: Props) => {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-1">
+    <form onSubmit={handleSubmit(onSubmit)} className="space-y-1 mt-5">
       <div>
         <label className="mb-2 block text-sm text-gray-500">New Password</label>
         <div className="flex h-12 items-center rounded-xl border border-gray-300 bg-gray-100 px-4">

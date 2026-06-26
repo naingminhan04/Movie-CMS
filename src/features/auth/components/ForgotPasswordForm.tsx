@@ -33,7 +33,7 @@ const ForgotPasswordForm = ({ onNext }: Props) => {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-1">
+    <form onSubmit={handleSubmit(onSubmit)} className="space-y-1 mt-5">
       <div>
         <label className="mb-2 block text-sm text-gray-500">
           Email Address

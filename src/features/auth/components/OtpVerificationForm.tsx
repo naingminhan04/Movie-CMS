@@ -27,7 +27,7 @@ const OtpVerificationForm = ({ userId, onNext }: Props) => {
     });
 
   const otp = watch("otp");
-  const digits = otp.padEnd(OTP_LENGTH, "").split("").slice(0, OTP_LENGTH);
+  const digits = Array.from({ length: OTP_LENGTH }, (_, i) => otp[i] ?? "");
 
   const handleDigitChange = (index: number, value: string) => {
     const digit = value.replace(/\D/g, "").slice(-1);

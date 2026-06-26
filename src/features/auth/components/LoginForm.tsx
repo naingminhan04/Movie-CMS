@@ -8,7 +8,6 @@ import { useNavigate } from "react-router-dom";
 import { adminLogin } from "../api/auth.api";
 import { getUserProfile } from "../api/profile.api";
 import { ROUTES } from "@/routes/path";
-
 import {
   clearRememberedEmail,
   getRememberedEmail,
@@ -77,6 +76,7 @@ const LoginForm = () => {
             className="flex-1 bg-transparent outline-none"
             {...register("email")}
           />
+          <span className="text-xs text-gray-400">@company.com.mm</span>
         </div>
 
         {errors.email && (
@@ -116,7 +116,11 @@ const LoginForm = () => {
           <span className="text-lg">Remember</span>
         </label>
 
-        <button type="button" className="font-medium text-[#0D4D87]">
+        <button
+          type="button"
+          onClick={() => navigate(ROUTES.forgotPassword)}
+          className="font-medium text-[#0D4D87]"
+        >
           Forgot password?
         </button>
       </div>

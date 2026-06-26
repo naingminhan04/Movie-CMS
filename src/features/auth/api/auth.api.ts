@@ -7,10 +7,16 @@ import {
   setAccessTokenCookie,
 } from "@/lib/cookies";
 import type {
+  ForgotPasswordRequest,
+  ForgotPasswordResponse,
   LoginRequest,
   LoginResponse,
   RefreshRequest,
   RefreshResponse,
+  ResetPasswordRequest,
+  ResetPasswordResponse,
+  VerifyOtpRequest,
+  VerifyOtpResponse,
 } from "../types/auth";
 
 const API_BASE_URL = import.meta.env.VITE_API_URL;
@@ -66,4 +72,36 @@ export const refreshAccessToken = async (): Promise<RefreshResponse> => {
 
 export const logout = (): void => {
   clearAuthCookies();
+};
+
+// ── Password Reset ────────────────────────────────────────────────────────────
+
+export const forgotPassword = async (
+  payload: ForgotPasswordRequest,
+): Promise<ForgotPasswordResponse> => {
+  const { data } = await authClient.post<ForgotPasswordResponse>(
+    "/auth/forget-password",
+    payload,
+  );
+  return data;
+};
+
+export const verifyOtp = async (
+  payload: VerifyOtpRequest,
+): Promise<VerifyOtpResponse> => {
+  const { data } = await authClient.post<VerifyOtpResponse>(
+    "/auth/verify-otp",
+    payload,
+  );
+  return data;
+};
+
+export const resetPassword = async (
+  payload: ResetPasswordRequest,
+): Promise<ResetPasswordResponse> => {
+  const { data } = await authClient.post<ResetPasswordResponse>(
+    "/auth/reset-password",
+    payload,
+  );
+  return data;
 };

@@ -5,6 +5,9 @@ import PageFrame from "@/app/layouts/PageFrame";
 import { administrationRoutes } from "@/features/administration/routes";
 import AnnouncementsPage from "@/features/announcements/page";
 import AuthPage from "@/features/auth/page";
+import ForgotPasswordPage from "@/features/auth/pages/ForgotPasswordPage";
+import OtpVerificationPage from "@/features/auth/pages/OtpVerificationPage";
+import ResetPasswordPage from "@/features/auth/pages/ResetPasswordPage";
 import { cmsRoutes } from "@/features/cms/routes";
 import { customersRoutes } from "@/features/customers/routes";
 import Dashboard from "@/features/dashboard/page";
@@ -43,6 +46,18 @@ export const router = createBrowserRouter([
       {
         path: ROUTES.login,
         element: <AuthPage />,
+      },
+      {
+        path: ROUTES.forgotPassword,
+        element: <ForgotPasswordPage />,
+      },
+      {
+        path: ROUTES.otpVerification,
+        element: <OtpVerificationPage />,
+      },
+      {
+        path: ROUTES.resetPassword,
+        element: <ResetPasswordPage />,
       },
     ],
   },

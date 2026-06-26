@@ -95,3 +95,46 @@ export interface ProfileResponse {
 }
 
 export type AuthTokens = LoginResponse["data"];
+
+// ── Password Reset ────────────────────────────────────────────────────────────
+
+export interface ForgotPasswordRequest {
+  email: string;
+  userType: "ADMIN";
+}
+
+export interface ForgotPasswordResponse {
+  success: boolean;
+  statusCode: number;
+  message: string;
+  data: {
+    email: string;
+  };
+}
+
+export interface VerifyOtpRequest {
+  email: string;
+  otp: string;
+  userType: "ADMIN";
+}
+
+export interface VerifyOtpResponse {
+  success: boolean;
+  statusCode: number;
+  message: string;
+  data: {
+    resetToken: string;
+  };
+}
+
+export interface ResetPasswordRequest {
+  resetToken: string;
+  newPassword: string;
+  confirmPassword: string;
+}
+
+export interface ResetPasswordResponse {
+  success: boolean;
+  statusCode: number;
+  message: string;
+}

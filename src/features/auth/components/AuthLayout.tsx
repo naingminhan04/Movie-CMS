@@ -4,12 +4,22 @@ interface AuthLayoutProps {
   children: ReactNode;
 }
 
+const SESSION_KEY = "auth_panel_introduced";
+
 const AuthLayout = ({ children }: AuthLayoutProps) => {
-  const [isLoaded, setLoaded] = useState(false);
+  const alreadyShown = sessionStorage.getItem(SESSION_KEY) === "true";
+
+  const [isLoaded, setLoaded] = useState(alreadyShown);
   const [showText, setShowText] = useState(true);
 
   useEffect(() => {
-    const timer = setTimeout(() => setLoaded(true), 200);
+    if (alreadyShown) return;
+
+    const timer = setTimeout(() => {
+      setLoaded(true);
+      sessionStorage.setItem(SESSION_KEY, "true");
+    }, 200);
+
     return () => clearTimeout(timer);
   }, []);
 
@@ -54,8 +64,10 @@ const AuthLayout = ({ children }: AuthLayoutProps) => {
 
       {/* Right side */}
       <section
-        className={`flex absolute transition-all duration-500 h-full w-[42%] min-w-150 items-center justify-center rounded-l-[56px] bg-white ${
-          isLoaded ? "right-0" : "-right-160"
+        className={`flex absolute h-full w-[42%] min-w-150 items-center justify-center rounded-l-[56px] bg-white ${
+          isLoaded
+            ? "right-0 transition-all duration-500"
+            : "-right-160"
         }`}
       >
         <div className="w-full max-w-130 px-12">{children}</div>

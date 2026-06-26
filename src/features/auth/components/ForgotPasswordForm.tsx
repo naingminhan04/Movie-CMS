@@ -1,4 +1,3 @@
-import { ArrowLeft } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "react-hot-toast";
@@ -8,13 +7,13 @@ import {
   forgotPasswordSchema,
   type ForgotPasswordSchema,
 } from "../schema/forgotPassword.schema";
+import { getErrorMessage } from "@/lib/get-error-message";
 
 interface Props {
-  onBack: () => void;
   onNext: (email: string) => void;
 }
 
-const ForgotPasswordForm = ({ onBack, onNext }: Props) => {
+const ForgotPasswordForm = ({ onNext }: Props) => {
   const {
     register,
     handleSubmit,
@@ -29,30 +28,12 @@ const ForgotPasswordForm = ({ onBack, onNext }: Props) => {
       toast.success(res.message);
       onNext(email);
     } catch (err) {
-      toast.error("Failed to send OTP: " + err);
+      toast.error(getErrorMessage(err));
     }
   };
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-1">
-      <button
-        type="button"
-        onClick={onBack}
-        className="mb-6 flex items-center gap-2 text-gray-500 transition hover:text-gray-700"
-      >
-        <ArrowLeft size={16} />
-        <span className="text-sm">Back</span>
-      </button>
-
-      <div className="mb-6">
-        <h2 className="text-2xl font-bold tracking-wide text-black">
-          Forgot Your Password
-        </h2>
-        <p className="mt-1 text-sm text-gray-500">
-          We'll send you the update instruction shortly.
-        </p>
-      </div>
-
       <div>
         <label className="mb-2 block text-sm text-gray-500">
           Email Address

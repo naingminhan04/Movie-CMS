@@ -1,4 +1,4 @@
-import { ArrowLeft, Eye, EyeOff } from "lucide-react";
+import { Eye, EyeOff } from "lucide-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -9,14 +9,14 @@ import {
   resetPasswordSchema,
   type ResetPasswordSchema,
 } from "../schema/resetPassword.schema";
+import { getErrorMessage } from "@/lib/get-error-message";
 
 interface Props {
   resetToken: string;
-  onBack: () => void;
   onDone: () => void;
 }
 
-const ResetPasswordForm = ({ resetToken, onBack, onDone }: Props) => {
+const ResetPasswordForm = ({ resetToken, onDone }: Props) => {
   const [showNew, setShowNew] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
 
@@ -34,27 +34,12 @@ const ResetPasswordForm = ({ resetToken, onBack, onDone }: Props) => {
       toast.success(res.message || "Password reset successfully");
       onDone();
     } catch (err) {
-      toast.error("Password reset failed: " + err);
+      toast.error(getErrorMessage(err));
     }
   };
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-1">
-      <button
-        type="button"
-        onClick={onBack}
-        className="mb-6 flex items-center gap-2 text-gray-500 transition hover:text-gray-700"
-      >
-        <ArrowLeft size={16} />
-        <span className="text-sm">Back</span>
-      </button>
-
-      <div className="mb-6">
-        <h2 className="text-2xl font-bold tracking-wide text-black">
-          Reset Password
-        </h2>
-      </div>
-
       <div>
         <label className="mb-2 block text-sm text-gray-500">New Password</label>
         <div className="flex h-12 items-center rounded-xl border border-gray-300 bg-gray-100 px-4">

@@ -1,4 +1,3 @@
-import { ArrowLeft } from "lucide-react";
 import { useRef } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -9,22 +8,16 @@ import {
   otpVerificationSchema,
   type OtpVerificationSchema,
 } from "../schema/otpVerification.schema";
+import { getErrorMessage } from "@/lib/get-error-message";
 
 interface Props {
   email: string;
-  onBack: () => void;
   onNext: (resetToken: string) => void;
 }
 
-const maskEmail = (email: string): string => {
-  const [local, domain] = email.split("@");
-  if (!domain) return email;
-  return `****${local.slice(-2)}@${domain}`;
-};
-
 const OTP_LENGTH = 6;
 
-const OtpVerificationForm = ({ email, onBack, onNext }: Props) => {
+const OtpVerificationForm = ({ email, onNext }: Props) => {
   const inputRefs = useRef<Array<HTMLInputElement | null>>([]);
 
   const { setValue, handleSubmit, watch, formState: { isSubmitting } } =
@@ -74,37 +67,14 @@ const OtpVerificationForm = ({ email, onBack, onNext }: Props) => {
       toast.success(res.message);
       onNext(res.data.resetToken);
     } catch (err) {
-      toast.error("OTP verification failed: " + err);
+      toast.error(getErrorMessage(err));
     }
   };
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-1">
-      <button
-        type="button"
-        onClick={onBack}
-        className="mb-6 flex items-center gap-2 text-gray-500 transition hover:text-gray-700"
-      >
-        <ArrowLeft size={16} />
-        <span className="text-sm">Back</span>
-      </button>
-
-      <div className="mb-6">
-        <h2 className="text-2xl font-bold tracking-wide text-black">
-          OTP Verification
-        </h2>
-        <p className="mt-1 text-sm text-gray-500">
-          We have sent an OTP code to your email
-        </p>
-        {email && (
-          <p className="text-sm font-medium text-gray-700">{maskEmail(email)}</p>
-        )}
-      </div>
-
       <div>
-        <label className="mb-2 block text-sm text-gray-500">
-          OTP Code
-        </label>
+        <label className="mb-2 block text-sm text-gray-500">OTP Code</label>
 
         <div className="flex gap-3">
           {Array.from({ length: OTP_LENGTH }).map((_, index) => (
